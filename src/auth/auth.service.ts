@@ -6,10 +6,13 @@ import bcrypt from 'bcrypt';
 export class AuthService {
   constructor(private readonly userService: UserService) {}
   async register(registerUserDto: RegisterDto) {
-    console.log(registerUserDto);
     //check if email already exists
     //hash the password
     const hash = await bcrypt.hash(registerUserDto.password, 10);
-    return this.userService.createUser({ ...registerUserDto, password: hash });
+    const user = await this.userService.createUser({
+      ...registerUserDto,
+      password: hash,
+    });
+    return user;
   }
 }

@@ -5,7 +5,13 @@ import { RegisterDto } from './dto/registerUserDto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('register')
-  register(@Body() registerUserDto: RegisterDto) {
-    return this.authService.register(registerUserDto);
+  async register(@Body() registerUserDto: RegisterDto) {
+    const newUser = await this.authService.register(registerUserDto);
+    return {
+      success: true,
+      data: newUser,
+      err: {},
+      message: 'Successfully created a user',
+    };
   }
 }
